@@ -1,5 +1,5 @@
     // 在build.gradle(Module) 中添加以下代码：buildFeatures { viewBinding true }
-    // 思考：怎样向文件里追加一行，读取/修改/删除指定一行
+    // 思考：怎样 读取/修改/删除指定一行
     
 class MainActivity : AppCompatActivity() {
     
@@ -20,13 +20,23 @@ class MainActivity : AppCompatActivity() {
             try {
                 var content = "0123456789ABCDEF"
                 if (!file.exists()) {
-                    file.createNewFile() //?????
+                    file.createNewFile()
                 }else{
-                    content = "ABCDEF0123456789"
+                    content = "追加一行"
                 }
+
+                // 整个文件覆盖新内容
+                /*
                 val fos = FileOutputStream(file)
                 fos.write(content.toByteArray())
+                //fos.write("\r\n".toByteArray()) //写入换行
                 fos.close()
+                 */
+
+                // 在文件末尾追加一行
+                file.appendBytes(content.toByteArray())
+                file.appendBytes("\n".toByteArray())
+
                 if (file.exists()) {
                     AlertDialog.Builder(this).setTitle("提示").setMessage("已经写入 ${filesDir}").setPositiveButton("好", null).create().show()
                 }else{
